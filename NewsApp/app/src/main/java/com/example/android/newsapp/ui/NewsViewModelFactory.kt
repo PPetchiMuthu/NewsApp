@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.newsapp.repository.NewsRepository
 
-class NewsViewModelFactory(val newsResposity: NewsRepository) : ViewModelProvider.Factory {
+class NewsViewModelFactory(private val newsRepository: NewsRepository) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return NewsViewModel(newsResposity) as T
+        return NewsViewModel(newsRepository) as T
     }
 }

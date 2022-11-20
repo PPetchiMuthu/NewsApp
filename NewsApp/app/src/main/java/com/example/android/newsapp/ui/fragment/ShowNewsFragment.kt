@@ -1,4 +1,4 @@
-package com.example.android.news.ui.fragment
+package com.example.android.newsapp.ui.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -8,13 +8,12 @@ import androidx.navigation.fragment.navArgs
 import com.example.android.newsapp.R
 import com.example.android.newsapp.ui.MainActivity
 import com.example.android.newsapp.ui.NewsViewModel
-import kotlinx.android.synthetic.main.fragment_article.*
+import kotlinx.android.synthetic.main.fragment_show_news.*
 
-class ArticleFragment : Fragment(R.layout.fragment_article) {
+class ShowNewsFragment : Fragment(R.layout.fragment_show_news) {
 
     lateinit var viewModel: NewsViewModel
-    val args:ArticleFragmentArgs by navArgs()
-
+    val args : BreakingNewsFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).viewModel

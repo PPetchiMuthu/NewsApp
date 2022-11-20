@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.android.newsapp.ui.MainActivity
 import com.example.android.newsapp.R
 import com.example.android.newsapp.adapter.NewsAdapter
+import com.example.android.newsapp.ui.MainActivity
 import com.example.android.newsapp.ui.NewsViewModel
 import com.example.android.newsapp.util.Resource
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
@@ -27,10 +27,8 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             val bundle = Bundle().apply {
                 putSerializable("article",it)
             }
-            findNavController().navigate(
-                R.id.action_breakingNewsFragment_to_articleFragment,
-                bundle
-            )
+            findNavController().navigate(R.id.action_breakingNewsFragment_to_showNewsFragment,
+            bundle)
         }
 
         viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
