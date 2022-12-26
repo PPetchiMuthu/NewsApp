@@ -10,21 +10,20 @@ import com.example.android.newsapp.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class NewsViewModel(
-    private val newsRepository: NewsRepository
-) : ViewModel() {
+class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage = 1
+    var breakingNewsResponse: NewsResponse? = null
 
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    var searchNewsPage = 1
+    private var searchNewsPage = 1
 
     init {
-        getBreakingNews("us")
+        getBreakingNews("in")
     }
 
-    private fun getBreakingNews(countryCode: String) = viewModelScope.launch {
+    fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         breakingNews.postValue(Resource.Loading())
         val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
         breakingNews.postValue(handleBreakingNewsResponse(response))
@@ -39,7 +38,15 @@ class NewsViewModel(
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
+                breakingNewsPage++
+                if (breakingNewsResponse == null) {
+                    breakingNewsResponse = resultResponse
+                } else {
+                    val oldData = breakingNewsResponse?.articles
+                    val newData = resultResponse.articles
+                    oldData?.addAll(newData)
+                }
+                return Resource.Success(breakingNewsResponse ?: resultResponse)
             }
         }
         return Resource.Error(response.message())
@@ -64,15 +71,3 @@ class NewsViewModel(
         newsRepository.deleteArticle(article)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
